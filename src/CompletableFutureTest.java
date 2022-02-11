@@ -15,6 +15,8 @@ public class CompletableFutureTest {
         CompletableFutureTest cf = new CompletableFutureTest();
 //        cf.initAsync();
 //        cf.initSupplyAsync();
+//        cf.completeTest();
+//        cf.completeExceptionallyTest();
 //        cf.whenCompleteTest();
 //        cf.exceptionallyTest();
         cf.handleTest();
@@ -41,6 +43,33 @@ public class CompletableFutureTest {
         System.out.println("rtn=" + rtn.get()); // get() 是阻塞方法，加了這行會等到前面都執行完才會往下執行
         Util.printEnd();
         // 包起來的 CompletableFuture.supplyAsync 是另外一個執行緒，如果沒有調用阻塞方法，通常執會執行 start 後 end，最後才是裡面的方法
+    }
+
+    private void completeTest() throws ExecutionException, InterruptedException {
+        // complete 為某個執行緒執行完之後，取代執行緒的結果
+
+        Util.printStart();
+        CompletableFuture<String> result = CompletableFuture.supplyAsync(() -> "complete test", ES);
+        // result.get(); // 這行不可在 complete 之前，會使 complete 失效
+        boolean complete = result.complete("finish!");
+        System.out.println(result.get()); // get 或 join 都可以
+        Util.printEnd();
+    }
+
+    private void completeExceptionallyTest() {
+        Util.printStart();
+        CompletableFuture<String> result = CompletableFuture.supplyAsync(() -> "complete test", ES);
+        try {
+//            result.get();
+            int i = 1 / 0;
+
+            boolean complete = result.complete("finish!");
+            System.out.println(result.get()); // get 或 join 都可以
+        } catch (Exception e) {
+            // 發生例外會執行，如果 result 有取到結果會是 false；沒取到是 true
+            System.out.println(result.completeExceptionally(e));
+        }
+        Util.printEnd();
     }
 
     private void whenCompleteTest() throws ExecutionException, InterruptedException {

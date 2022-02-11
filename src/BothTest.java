@@ -7,6 +7,7 @@ public class BothTest {
      * 兩個執行緒完成才能往下執行
      * CompletableFuture 有實現 CompletionStage，所以這個參數傳第二個執行緒
      * 和上面三個方法一樣，參數都是上兩個執行緒回傳的結果，回傳值是自己回傳的結果
+     * 兩個執行緒回傳值的泛型可以不同
      * <p>
      * runAfterBoth(CompletionStage, Runnable)，無參無回傳值，無法取得兩個執行緒的結果
      * thenAcceptBoth(CompletionStage, BiConsumer)，有兩個參數，無回傳值，可取得兩個執行緒的結果
@@ -14,10 +15,10 @@ public class BothTest {
      * 以上都有相應的 xxxAsync 方法，然後再分成有沒有 Executor 參數
      */
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        BothTest tx = new BothTest();
-//        tx.runAfterBothTest();
-//        tx.thenAcceptBothTest();
-        tx.thenCombineTest();
+        BothTest bt = new BothTest();
+//        bt.runAfterBothTest();
+//        bt.thenAcceptBothTest();
+        bt.thenCombineTest();
 
         if (!ES.isShutdown()) ES.shutdown();
     }

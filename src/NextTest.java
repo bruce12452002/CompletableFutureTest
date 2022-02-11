@@ -11,11 +11,11 @@ public class NextTest {
      * 以上都有相應的 xxxAsync 方法，然後再分成有沒有 Executor 參數
      */
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        NextTest tx = new NextTest();
-//        tx.thenRunTest();
-//        tx.thenAcceptTest();
-//        tx.thenApplyTest();
-        tx.thenApplyAcceptRunTest();
+        NextTest nt = new NextTest();
+//        nt.thenRunTest();
+//        nt.thenAcceptTest();
+//        nt.thenApplyTest();
+        nt.thenApplyAcceptRunTest();
 
         if (!ES.isShutdown()) ES.shutdown();
     }
